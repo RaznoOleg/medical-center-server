@@ -1,0 +1,42 @@
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { ConfigService } from '@nestjs/config';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
+import * as session from 'express-session';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe());
+  app.enableCors({
+    origin: true,
+    credentials: true
+  });
+  const configService = app.get(ConfigService);
+  const port = configService.get('port');
+
+  app.use(
+    session({
+      secret: configService.get('session_secret_key'),
+      resave: false,
+      saveUninitialized: false,
+      cookie: { maxAge: 3600000 }
+    })
+  );
+
+  const config = new DocumentBuilder()
+    .setTitle('Medical-center api')
+    .setDescription('Api for medical-center')
+    .setVersion('1.0')
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'access-token'
+    )
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
+  await app.listen(port);
+}
+bootstrap();
