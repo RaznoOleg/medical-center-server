@@ -38,8 +38,7 @@ export class AuthService {
   ) {}
 
   async signUp(
-    userDto: CreateUserDto,
-    googleUser: GoogleUserDetails
+    userDto: CreateUserDto
   ): Promise<{ accessToken: string; newUser: UserInfo }> {
     const user = await this.userService.getUserByEmail(userDto.email);
 
@@ -57,12 +56,6 @@ export class AuthService {
     });
 
     const { accessToken } = await this.generateToken(newUser);
-
-    if (!googleUser) {
-      const userWithLink = await this.updateActivationLink(newUser.id);
-
-      return { accessToken: accessToken, newUser: userWithLink };
-    }
 
     return { accessToken: accessToken, newUser };
   }
