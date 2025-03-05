@@ -38,20 +38,9 @@ export class AuthController {
   @ApiResponse({ status: 201, type: User })
   @Post('/sign-up')
   async signUp(
-    @Body() createUserDto: CreateUserDto,
-    @Session() session
+    @Body() createUserDto: CreateUserDto
   ): Promise<{ accessToken: string; newUser: UserInfo }> {
-    const googleUser: GoogleUserDetails = session.user;
-
-    if (googleUser) {
-      createUserDto = { ...createUserDto, ...googleUser };
-      createUserDto.password = null;
-    }
-    const result = await this.authService.signUp(createUserDto, googleUser);
-
-    session.user = null;
-
-    return result;
+    return await this.authService.signUp(createUserDto);
   }
 
   @ApiOperation({ summary: 'Doctor login' })
@@ -73,18 +62,12 @@ export class AuthController {
   @ApiOperation({ summary: 'Google OAuth callback endpoint' })
   @Get('google/redirect')
   @UseGuards(GoogleOauthGuard)
-  async googleAuthRedirect(
-    @Req() req,
-    @Res() res: Response,
-    @Session() session
-  ) {
+  async googleAuthRedirect(@Req() req, @Res() res: Response) {
     const user = req.user;
     if (!user) {
       return res.status(401).json({ message: 'User not authenticated' });
     }
     if (!user.accessToken) {
-      session.user = user.userInfo;
-
       const { userInfoToken } = await this.authService.generateUserInfoToken(
         user.userInfo
       );

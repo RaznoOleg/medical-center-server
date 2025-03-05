@@ -1,4 +1,5 @@
 export default () => ({
+  node_env: process.env.NODE_ENV,
   port: process.env.PORT,
   db_host: process.env.DB_HOST,
   db_user: process.env.DB_USER,

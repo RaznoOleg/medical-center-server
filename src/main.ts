@@ -15,15 +15,6 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get('port');
 
-  app.use(
-    session({
-      secret: configService.get('session_secret_key'),
-      resave: false,
-      saveUninitialized: false,
-      cookie: { maxAge: 3600000 }
-    })
-  );
-
   const config = new DocumentBuilder()
     .setTitle('Medical-center api')
     .setDescription('Api for medical-center')
