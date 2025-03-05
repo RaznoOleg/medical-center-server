@@ -11,5 +11,8 @@ export const typeOrmConfig = async (
   password: configService.get('db_password'),
   database: configService.get('db_name'),
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+  ssl: {
+    rejectUnauthorized: true
+  },
   synchronize: true
 });
