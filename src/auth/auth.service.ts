@@ -57,6 +57,12 @@ export class AuthService {
 
     const { accessToken } = await this.generateToken(newUser);
 
+    if (!newUser.isVerified) {
+      const userWithLink = await this.updateActivationLink(newUser.id);
+
+      return { accessToken: accessToken, newUser: userWithLink };
+    }
+
     return { accessToken: accessToken, newUser };
   }
 
