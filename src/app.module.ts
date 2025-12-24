@@ -16,6 +16,8 @@ import { NoteModule } from './note/note.module';
 import { AvailabilityModule } from './availability/availability.module';
 import { AppointmentModule } from './appointment/appointment.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { PredictionModule } from './prediction/prediction.module';
+import { VitalsModule } from './vitals/vitals.module';
 
 @Module({
   imports: [
@@ -33,7 +35,9 @@ import { ScheduleModule } from '@nestjs/schedule';
     UserModule,
     AuthModule,
     MailModule,
+    PredictionModule,
     PatientModule,
+    VitalsModule,
     NoteModule,
     AvailabilityModule,
     AppointmentModule

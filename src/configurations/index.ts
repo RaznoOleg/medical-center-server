@@ -22,5 +22,6 @@ export default () => ({
   session_secret_key: process.env.SESSION_SECRET_KEY,
   client_url_google_sign_up: process.env.CLIENT_URL_GOOGLE_SIGN_UP,
   client_url_google_redirect: process.env.CLIENT_URL_GOOGLE_REDIRECT,
-  jwt_expiration_time: process.env.JWT_EXPIRATION_TIME
+  jwt_expiration_time: process.env.JWT_EXPIRATION_TIME,
+  risk_prediction_api_url: process.env.RISK_PREDICTION_API_URL
 });
