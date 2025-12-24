@@ -4,6 +4,7 @@ import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { Gender } from 'src/common/enums';
 import Note from 'src/note/entities/note.entity';
 import Appointment from 'src/appointment/entities/appointment.entity';
+import { Vitals } from 'src/vitals/entities/vitals.entity';
 
 @Entity()
 export default class Patient {
@@ -90,4 +91,7 @@ export default class Patient {
 
   @OneToMany(() => Appointment, (appointment) => appointment.user)
   appointments: Appointment[];
+
+  @OneToMany(() => Vitals, (vitals) => vitals.patient)
+  vitals: Vitals[];
 }
